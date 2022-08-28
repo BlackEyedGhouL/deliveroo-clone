@@ -91,7 +91,7 @@ const HomeScreen = () => {
               key={featuredList.id}
               title={featuredList.name}
               description={featuredList.short_description}
-              restaurants={featuredList.restaurants}
+              restaurantIds={featuredList.restaurants}
             />
           ))
         )}

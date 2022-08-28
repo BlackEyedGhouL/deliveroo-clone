@@ -4,6 +4,7 @@ import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
 import { db } from "../Core/Config";
 import { doc, onSnapshot } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 const RestaurantCard = ({
   id,
@@ -19,6 +20,7 @@ const RestaurantCard = ({
 }) => {
   let [category, setCategory] = useState();
   const [isLoading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "categories", genre), (doc) => {
@@ -29,7 +31,23 @@ const RestaurantCard = ({
   }, []);
 
   return (
-    <TouchableOpacity className="bg-white mr-3 shadow round w-64">
+    <TouchableOpacity
+      className="bg-white mr-3 shadow round w-64"
+      onPress={() => {
+        navigation.navigate("Restaurant", {
+          id,
+          imgUrl,
+          title,
+          rating,
+          genre,
+          address,
+          short_description,
+          dishes,
+          long,
+          lat,
+        });
+      }}
+    >
       <Image
         source={{
           uri: imgUrl,
@@ -47,7 +65,7 @@ const RestaurantCard = ({
         </View>
         <View className="flex-row items-center space-x-1">
           <MapPinIcon color="gray" opacity={0.4} size={22} />
-          <Text className="text-xs text-gray-500">Nearby - {address}</Text>
+          <Text className="text-xs text-gray-500 pr-3">Nearby - {address}</Text>
         </View>
       </View>
     </TouchableOpacity>

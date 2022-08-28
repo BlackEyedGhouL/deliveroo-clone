@@ -4,16 +4,19 @@ import { db } from "../Core/Config";
 import { doc, onSnapshot } from "firebase/firestore";
 import RestaurantCard from "./RestaurantCard";
 
-const Restaurants = (id) => {
+const Restaurants = (restaurantData) => {
   let [restaurant, setRestaurant] = useState();
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "restaurants", id.id), (doc) => {
-      restaurant = doc.data();
-      setRestaurant(restaurant);
-      setLoading(false);
-    });
+    const unsub = onSnapshot(
+      doc(db, "restaurants", restaurantData.id),
+      (doc) => {
+        restaurant = doc.data();
+        setRestaurant(restaurant);
+        setLoading(false);
+      }
+    );
   }, []);
 
   return (

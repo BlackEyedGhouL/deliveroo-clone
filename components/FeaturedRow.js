@@ -5,7 +5,7 @@ import RestaurantCard from "./RestaurantCard";
 
 import Restaurants from "./Restaurants";
 
-const FeaturedRow = ({ title, description, restaurants }) => {
+const FeaturedRow = ({ title, description, restaurantIds }) => {
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -23,7 +23,7 @@ const FeaturedRow = ({ title, description, restaurants }) => {
         showsHorizontalScrollIndicator={false}
         className="pt-4"
       >
-        {restaurants.map((restaurantId) => (
+        {restaurantIds.map((restaurantId) => (
           <Restaurants key={restaurantId} id={restaurantId} />
         ))}
       </ScrollView>
