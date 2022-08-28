@@ -1,7 +1,9 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
+import { db } from "../Core/Config";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const RestaurantCard = ({
   id,
@@ -15,8 +17,19 @@ const RestaurantCard = ({
   long,
   lat,
 }) => {
+  let [category, setCategory] = useState();
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "categories", genre), (doc) => {
+      category = doc.data();
+      setCategory(category);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <TouchableOpacity className="bg-white mr-3 shadow round">
+    <TouchableOpacity className="bg-white mr-3 shadow round w-64">
       <Image
         source={{
           uri: imgUrl,
@@ -28,7 +41,8 @@ const RestaurantCard = ({
         <View className="flex-row items-center space-x-1">
           <StarIcon size={22} color="green" opacity={0.5} />
           <Text className="text-xs text-gray-500">
-            <Text className="text-green-500">{rating}</Text> - {genre}
+            <Text className="text-green-500">{rating}</Text> -{" "}
+            {isLoading ? null : category.name}
           </Text>
         </View>
         <View className="flex-row items-center space-x-1">
