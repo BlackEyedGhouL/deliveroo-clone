@@ -3,7 +3,7 @@ import React from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
 
-const FeaturedRow = ({ id, title, description }) => {
+const FeaturedRow = ({ id, title, description, restaurants }) => {
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -21,30 +21,6 @@ const FeaturedRow = ({ id, title, description }) => {
         showsHorizontalScrollIndicator={false}
         className="pt-4"
       >
-        <RestaurantCard
-          id={0}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Shushi"
-          rating={4.5}
-          genre="Japanese"
-          address="123 Main St"
-          short_description="Test"
-          dishes={[]}
-          long={20}
-          lat={10}
-        />
-        <RestaurantCard
-          id={0}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Shushi"
-          rating={4.5}
-          genre="Japanese"
-          address="123 Main St"
-          short_description="Test"
-          dishes={[]}
-          long={20}
-          lat={10}
-        />
         <RestaurantCard
           id={0}
           imgUrl="https://links.papareact.com/gn7"
