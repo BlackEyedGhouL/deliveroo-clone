@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import { db } from "../Core/Config";
@@ -6,7 +6,6 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
 const Categories = () => {
   const [categories, setCategories] = useState();
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const q = query(collection(db, "categories"), orderBy("name"));
@@ -16,7 +15,6 @@ const Categories = () => {
         categories.push(doc.data());
       });
       setCategories(categories);
-      setLoading(false);
     });
   }, []);
 
@@ -29,23 +27,13 @@ const Categories = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {isLoading ? (
-        <View>
-          <ActivityIndicator
-            className="py-5 px-44"
-            size="large"
-            color="#00CCBB"
-          />
-        </View>
-      ) : (
-        categories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            imgUrl={category.image}
-            title={category.name}
-          />
-        ))
-      )}
+      {categories?.map((category) => (
+        <CategoryCard
+          key={category.id}
+          imgUrl={category.image}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };

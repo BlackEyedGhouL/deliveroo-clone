@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Image, TextInput, ScrollView } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,7 +16,6 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [featuredLists, setfeaturedLists] = useState();
-  const [isLoading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +31,6 @@ const HomeScreen = () => {
         featuredLists.push(doc.data());
       });
       setfeaturedLists(featuredLists);
-      setLoading(false);
     });
   }, []);
 
@@ -83,18 +74,14 @@ const HomeScreen = () => {
       >
         <Categories />
 
-        {isLoading ? (
-          <ActivityIndicator className="py-40" size="large" color="#00CCBB" />
-        ) : (
-          featuredLists.map((featuredList) => (
-            <FeaturedRow
-              key={featuredList.id}
-              title={featuredList.name}
-              description={featuredList.short_description}
-              restaurantIds={featuredList.restaurants}
-            />
-          ))
-        )}
+        {featuredLists?.map((featuredList) => (
+          <FeaturedRow
+            key={featuredList.id}
+            title={featuredList.name}
+            description={featuredList.short_description}
+            restaurantIds={featuredList.restaurants}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

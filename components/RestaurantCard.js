@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { StarIcon } from "react-native-heroicons/solid";
-import { MapPinIcon } from "react-native-heroicons/outline";
+import { StarIcon, MapPinIcon } from "react-native-heroicons/solid";
 import { db } from "../Core/Config";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
@@ -65,7 +64,7 @@ const RestaurantCard = ({
         </View>
         <View className="flex-row items-center space-x-1">
           <MapPinIcon color="gray" opacity={0.4} size={22} />
-          <Text className="text-xs text-gray-500 pr-3">Nearby - {address}</Text>
+          <Text className="text-xs text-gray-500">Nearby - {address}</Text>
         </View>
       </View>
     </TouchableOpacity>
