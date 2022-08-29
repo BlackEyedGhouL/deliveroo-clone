@@ -3,10 +3,20 @@ import React, { useEffect, useState } from "react";
 import { db } from "../Core/Config";
 import { doc, onSnapshot } from "firebase/firestore";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToBasket,
+  selectBasketItemsWithId,
+  removeFromBasket,
+} from "../slices/basketSlice";
 
 const DishRow = ({ id }) => {
   let [dish, setDish] = useState();
   const [isPressed, setIsPressed] = useState(false);
+  const items = useSelector((state) =>
+    selectBasketItemsWithId(state, dish?.id)
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "dishes", id), (doc) => {
@@ -14,6 +24,15 @@ const DishRow = ({ id }) => {
       setDish(dish);
     });
   }, []);
+
+  const addItemsToBasket = () => {
+    dispatch(addToBasket(dish));
+  };
+
+  const removeItemsFromBasket = () => {
+    if (!items.length > 0) return;
+    dispatch(removeFromBasket(dish));
+  };
 
   return (
     <>
@@ -43,20 +62,15 @@ const DishRow = ({ id }) => {
       {isPressed && (
         <View className="bg-white px-4">
           <View className="flex-row space-x-2 items-center pb-3">
-            <TouchableOpacity>
+            <TouchableOpacity onPress={removeItemsFromBasket}>
               <MinusCircleIcon
-                color="#00CCBB"
-                // color={items.length > 0 ? "#00CCBB" : "gray"}
+                color={items.length > 0 ? "#00CCBB" : "gray"}
                 size={40}
               />
             </TouchableOpacity>
-            <Text>0</Text>
-            <TouchableOpacity>
-              <PlusCircleIcon
-                color="#00CCBB"
-                // color={items.length > 0 ? "#00CCBB" : "gray"}
-                size={40}
-              />
+            <Text>{items.length}</Text>
+            <TouchableOpacity onPress={addItemsToBasket}>
+              <PlusCircleIcon color="#00CCBB" size={40} />
             </TouchableOpacity>
           </View>
         </View>
