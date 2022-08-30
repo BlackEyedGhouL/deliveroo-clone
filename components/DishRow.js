@@ -9,6 +9,7 @@ import {
   selectBasketItemsWithId,
   removeFromBasket,
 } from "../slices/basketSlice";
+import Currency from "react-currency-formatter";
 
 const DishRow = ({ id }) => {
   let [dish, setDish] = useState();
@@ -46,7 +47,10 @@ const DishRow = ({ id }) => {
           <View className="flex-1 pr-2">
             <Text className="text-lg mb-1">{dish?.name}</Text>
             <Text className="text-gray-400">{dish?.short_description}</Text>
-            <Text className="text-gray-400 mt-2">${dish?.price}</Text>
+            <Text className="text-gray-400 mt-2">
+              {" "}
+              <Currency quantity={dish?.price} />
+            </Text>
           </View>
           <View>
             <Image
