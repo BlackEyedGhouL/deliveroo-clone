@@ -1,5 +1,5 @@
 import { View, Text, Image, TextInput, ScrollView } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -16,12 +16,6 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [featuredLists, setfeaturedLists] = useState();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
 
   useEffect(() => {
     const q = query(collection(db, "featuredLists"), orderBy("name"));

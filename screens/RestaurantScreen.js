@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   ArrowLeftIcon,
@@ -11,17 +11,14 @@ import { QuestionMarkCircleIcon } from "react-native-heroicons/outline";
 import { db } from "../Core/Config";
 import { doc, onSnapshot } from "firebase/firestore";
 import DishRow from "../components/DishRow";
-import Basket from "../components/Basket";
+import Basket from "../components/BasketBar";
+import { useDispatch } from "react-redux";
+import { setRestaurant } from "../slices/restaurantSlice";
 
 const RestaurantScreen = () => {
   const navigation = useNavigation();
   let [category, setCategory] = useState();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "categories", genre), (doc) => {
@@ -44,6 +41,23 @@ const RestaurantScreen = () => {
       lat,
     },
   } = useRoute();
+
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        short_description,
+        dishes,
+        long,
+        lat,
+      })
+    );
+  }, []);
 
   return (
     <>
